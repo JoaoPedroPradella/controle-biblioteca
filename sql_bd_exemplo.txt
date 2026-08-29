@@ -1,0 +1,64 @@
+Tabela banco de dados biblioteca 
+
+usuários {
+	id
+	nome
+	e-mail
+	senha
+	tipo: (aluno ou ADM) campo tipo BOOLEAN
+	ativo:
+	data cadastro:
+	data exclusao:
+
+}
+
+alunos {
+	id
+	usuario_id
+	cpf	
+	data nascimento
+	num matricula auto_increment 
+}
+
+livros {
+	id
+	descrição
+	autor
+	editora
+	data publicação
+	genero
+	idioma
+	tipo_capa
+	qtd_pag
+	sinopse
+}
+
+exemplares {
+	id
+	id_livro (FK livros)
+	reservado (sim ou não)
+	num_serie
+}
+
+empréstimos {
+	id
+	id_aluno
+	id_usuario
+	data retirada
+	data_prevista_devolucao
+	data devolução
+	val_multa
+}
+
+exemplares empréstimos {
+	id
+	id_emprestimo
+	id_exemplar
+}
+
+config_emprestimos {
+	id
+	percent_multa
+	dias_padrao_locacao
+	carencia
+}
