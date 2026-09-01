@@ -16,8 +16,12 @@
         @yield('main')
     </main>
     <footer>
-        @yield('footer')
         <p>Leia+ © 2026 - Todos os direitos reservados</p>
+        <h2>Contatos</h2>
+        <a href="mailto:contato@leia.com" target="_blank">E-mail</a>
+        <a href="https://www.instagram.com" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com" target="_blank">Facebook</a>
     </footer>
 </body>
+
 </html>
