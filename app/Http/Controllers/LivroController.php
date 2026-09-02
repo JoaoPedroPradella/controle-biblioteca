@@ -47,7 +47,7 @@ class LivroController extends Controller
 
         $livro->save();
 
-        return redirect('/livros-lista');
+        return redirect('/livros-lista')->with('msg', 'Livro cadastrado com sucesso!');
     }
 
     /**

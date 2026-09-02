@@ -13,7 +13,14 @@
         @yield('header')
     </header>
     <main>
-        @yield('main')
+        <div class="container-fluid">
+            <div class="row">
+                @if (session('msg'))
+                    <p class="msg">{{ session('msg') }}</p>
+                @endif
+                @yield('main')
+            </div>
+        </div>
     </main>
     <footer>
         <p>Leia+ © 2026 - Todos os direitos reservados</p>
