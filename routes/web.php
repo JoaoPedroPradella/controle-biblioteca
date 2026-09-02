@@ -2,11 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BibliotecaController;
+use App\Http\Controllers\LivroController;
+use App\Http\Controllers\AlunoController;
 
 Route::get('/', [BibliotecaController::class, 'index']);
 
 Route::get('/menu', [BibliotecaController::class, 'menu']);
 
-Route::get('/alunos-lista', [BibliotecaController::class, 'aluno_lista']);
+Route::get('/alunos-lista', [AlunoController::class, 'index']);
 
-Route::get('/livros-lista', [BibliotecaController::class, 'livro_lista']);
+Route::get('/livros-lista', [LivroController::class, 'index']);

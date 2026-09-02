@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Livro;
+
+
 class LivroController extends Controller
 {
     /**
-     * Display a listing of the resource.
+        * Index - Lista de livros cadastrados
      */
     public function index()
     {
-        //
+        $livros = Livro::all();
+
+        return view('livros/index',['livros' => $livros]);
     }
 
     /**
