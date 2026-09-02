@@ -12,3 +12,7 @@ Route::get('/menu', [BibliotecaController::class, 'menu']);
 Route::get('/alunos-lista', [AlunoController::class, 'index']);
 
 Route::get('/livros-lista', [LivroController::class, 'index']);
+
+Route::get('/livro-cadastrar', [LivroController::class, 'create']);
+
+Route::post('/livros', [LivroController::class, 'store']);

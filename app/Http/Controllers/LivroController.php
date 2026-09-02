@@ -10,13 +10,13 @@ use App\Models\Livro;
 class LivroController extends Controller
 {
     /**
-        * Index - Lista de livros cadastrados
+     * Index - Lista de livros cadastrados
      */
     public function index()
     {
         $livros = Livro::all();
 
-        return view('livros/index',['livros' => $livros]);
+        return view('livros/index', ['livros' => $livros]);
     }
 
     /**
@@ -24,7 +24,7 @@ class LivroController extends Controller
      */
     public function create()
     {
-        //
+        return view('livros/create');
     }
 
     /**
@@ -32,7 +32,22 @@ class LivroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $livro = new Livro;
+
+        $livro->descricao = $request->descricao;
+        $livro->autor = $request->autor;
+        $livro->editora = $request->editora;
+        $livro->data_pub = $request->data_pub;
+        $livro->genero = $request->genero;
+        $livro->idioma = $request->idioma;
+        $livro->qtd_pag = $request->qtd_pag;
+        $livro->formato = $request->formato;
+        $livro->tipo_capa = $request->tipo_capa;
+        $livro->sinopse = $request->sinopse;
+
+        $livro->save();
+
+        return redirect('/livros-lista');
     }
 
     /**

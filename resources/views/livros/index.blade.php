@@ -5,6 +5,7 @@
 @section('header')
     <h1>Lista de Livros</h1>
 
+    <a href="/livro-cadastrar"><button>Novo</button></a>
     @foreach ($livros as $livro)
         <p>{{ $livro->descricao }}</p>
         <p>{{ $livro->autor }}</p>
