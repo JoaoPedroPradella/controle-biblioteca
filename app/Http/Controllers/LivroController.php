@@ -34,7 +34,7 @@ class LivroController extends Controller
     {
         $livro = new Livro;
 
-        $livro->descricao = $request->descricao;
+        $livro->titulo = $request->titulo;
         $livro->autor = $request->autor;
         $livro->editora = $request->editora;
         $livro->data_pub = $request->data_pub;
@@ -44,6 +44,20 @@ class LivroController extends Controller
         $livro->formato = $request->formato;
         $livro->tipo_capa = $request->tipo_capa;
         $livro->sinopse = $request->sinopse;
+
+        if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
+            $requestImagem = $request->imagem;
+
+            $extensao = $requestImagem->extension();
+
+            // O md5 transforma essa informação em uma sequência de 32 caracteres hexadecimais
+            $nomeImagem = md5($requestImagem->getClientOriginalName() . strtotime("now")) . "." . $extensao;
+
+            $requestImagem->move(public_path('img/livros'), $nomeImagem);
+
+            $livro->imagem = $nomeImagem;
+
+        }
 
         $livro->save();
 

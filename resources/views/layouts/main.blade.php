@@ -15,6 +15,18 @@
     <main>
         <div class="container-fluid">
             <div class="row">
+
+                {{-- 
+                // Implementar futuramente para sumir a mensagem com o tempo, em Javascript:
+
+                    const msgContainer = document.getElementById('msgContainer');
+
+                    if(msgContainer){
+                    setTimeout(() => {
+                    msgContainer.parentElement.removeChild(msgContainer);
+                    },5000);
+                    }
+                --}}
                 @if (session('msg'))
                     <p class="msg">{{ session('msg') }}</p>
                 @endif

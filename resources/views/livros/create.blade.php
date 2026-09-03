@@ -6,10 +6,11 @@
     <h1>Cadastre um Novo Livro</h1>
 @endsection
 @section('main')
-    <form action="/livros" method="POST">
+{{-- enctype é necessário para enviar arquivos por um form html--}}
+    <form action="/livros" method="POST" enctype="multipart/form-data">
         @csrf
-        <label for="descricao">Descrição:</label>
-        <input type="text" name="descricao" id="descricao" required><br>
+        <label for="titulo">Titulo:</label>
+        <input type="text" name="titulo" id="titulo" required><br>
 
         <label for="autor">Autor:</label>
         <input type="text" name="autor" id="autor" required><br>
@@ -48,7 +49,10 @@
         <div>
             <label for="sinopse">Sinopse:</label>
         </div>
-        <textarea name="sinopse" id="sinopse" rows="4" cols="50" required></textarea><br>
+        <textarea name="sinopse" id="sinopse" rows="4" cols="50"></textarea><br>
+
+        <label for="imagem">Imagem do Livro:</label>
+        <input type="file" name="imagem" id="imagem" accept="image/*"><br>
 
 
         <input type="submit" value="Cadastrar">
