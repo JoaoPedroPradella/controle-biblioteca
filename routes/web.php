@@ -9,10 +9,12 @@ Route::get('/', [BibliotecaController::class, 'index']);
 
 Route::get('/menu', [BibliotecaController::class, 'menu']);
 
-Route::get('/alunos-lista', [AlunoController::class, 'index']);
+Route::get('/alunos/lista', [AlunoController::class, 'index']);
 
-Route::get('/livros-lista', [LivroController::class, 'index']);
+Route::get('/livros/lista', [LivroController::class, 'index']);
 
-Route::get('/livro-cadastrar', [LivroController::class, 'create']);
+Route::get('/livro/cadastrar', [LivroController::class, 'create']);
+
+Route::get('/livro/{id}', [LivroController::class, 'show']);
 
 Route::post('/livros', [LivroController::class, 'store']);

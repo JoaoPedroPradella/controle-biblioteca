@@ -61,15 +61,18 @@ class LivroController extends Controller
 
         $livro->save();
 
-        return redirect('/livros-lista')->with('msg', 'Livro cadastrado com sucesso!');
+        return redirect('/livros/lista')->with('msg', 'Livro cadastrado com sucesso!');
     }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
+    {   
+        // FindOrFail - busca o livro pelo id, se não encontrar retorna erro 404
+        $livro = Livro::findOrFail($id);
+
+        return view('livros/show', ['livro' => $livro]);
     }
 
     /**
