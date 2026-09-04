@@ -14,9 +14,17 @@ class LivroController extends Controller
      */
     public function index()
     {
-        $livros = Livro::all();
+        $busca = request('busca');
 
-        return view('livros/index', ['livros' => $livros]);
+        if ($busca) {
+             $livros = Livro::where([
+                ['titulo', 'like', '%'.$busca.'%']
+             ])->get();
+        } else {
+            $livros = Livro::all();
+        }
+
+        return view('livros/index', ['livros' => $livros, 'busca' => $busca]);
     }
 
     /**
@@ -45,7 +53,7 @@ class LivroController extends Controller
         $livro->tipo_capa = $request->tipo_capa;
         $livro->sinopse = $request->sinopse;
 
-        if($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
+        if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             $requestImagem = $request->imagem;
 
             $extensao = $requestImagem->extension();
@@ -56,7 +64,6 @@ class LivroController extends Controller
             $requestImagem->move(public_path('img/livros'), $nomeImagem);
 
             $livro->imagem = $nomeImagem;
-
         }
 
         $livro->save();
@@ -68,7 +75,7 @@ class LivroController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {   
+    {
         // FindOrFail - busca o livro pelo id, se não encontrar retorna erro 404
         $livro = Livro::findOrFail($id);
 

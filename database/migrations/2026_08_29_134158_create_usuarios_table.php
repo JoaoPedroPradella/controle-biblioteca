@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('senha', 255);
             $table->enum('tipo', ['aluno', 'admin']);
             $table->enum('situacao', ['ativo', 'inativo']);
-            $table->date('data_cad');
-            $table->date('data_exc')->nullable();
+            $table->datetime('data_cad');
+            $table->datetime('data_exc')->nullable();
         });
     }
 
