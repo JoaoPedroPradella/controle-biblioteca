@@ -4,6 +4,10 @@
 
 @section('header')
     <h1>Menu Leia+</h1>
+    <nav>
+        <a href="/alunos/lista"><button>Entrar</button></a>
+        <a href="/livros/lista"><button>Sair</button></a>
+    </nav>
 @endsection
 @section('main')
     <a href="/alunos/lista"><button>Alunos</button></a>
