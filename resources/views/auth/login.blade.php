@@ -12,49 +12,56 @@
             </div>
         @endsession
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+        @auth
+            <script>
+                window.location.href = '/menu';
+            </script>
+        @endauth
+        @guest
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                    autofocus autocomplete="username" placeholder="Digite seu e-mail"/>
-            </div>
+                <div>
+                    <x-label for="email" value="{{ __('Email') }}" />
+                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                        autofocus autocomplete="username" placeholder="Digite seu e-mail" />
+                </div>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Senha') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                    autocomplete="current-password" placeholder="Digite sua senha"/>
-            </div>
+                <div class="mt-4">
+                    <x-label for="password" value="{{ __('Senha') }}" />
+                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                        autocomplete="current-password" placeholder="Digite sua senha" />
+                </div>
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Lembrar-me') }}</span>
-                </label>
-            </div>
-
-
-            <div class="flex items-center justify-end mt-4">
-
-
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        href="{{ route('password.request') }}">
-                        {{ __('Esqueceu sua senha?') }}
-                    </a>
-                @endif
-
-                <x-button class="ms-4">
-                    {{ __('Entrar') }}
-                </x-button>
+                <div class="block mt-4">
+                    <label for="remember_me" class="flex items-center">
+                        <x-checkbox id="remember_me" name="remember" />
+                        <span class="ms-2 text-sm text-gray-600">{{ __('Lembrar-me') }}</span>
+                    </label>
+                </div>
 
 
-            </div>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                href="{{ route('register') }}">
-                {{ __('Criar conta') }}
-            </a>
-        </form>
+                <div class="flex items-center justify-end mt-4">
+
+
+                    @if (Route::has('password.request'))
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            href="{{ route('password.request') }}">
+                            {{ __('Esqueceu sua senha?') }}
+                        </a>
+                    @endif
+
+                    <x-button class="ms-4">
+                        {{ __('Entrar') }}
+                    </x-button>
+
+
+                </div>
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="{{ route('register') }}">
+                    {{ __('Criar conta') }}
+                </a>
+            </form>
+        @endguest
     </x-authentication-card>
 </x-guest-layout>

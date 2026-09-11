@@ -10,8 +10,5 @@ class BibliotecaController extends Controller
         return view('/auth/login');
     }
 
-    public function menu () {
-        return view('menu');
-    }
-
+    
 }
