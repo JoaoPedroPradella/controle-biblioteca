@@ -5,11 +5,6 @@ use App\Http\Controllers\BibliotecaController;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\AlunoController;
 
-Route::get('/auth/check', function () {
-    return response()->json([
-        'authenticated' => Auth::check()
-    ]);
-})->name('auth.check');
 
 Route::get('/', [BibliotecaController::class, 'index']);
 

@@ -26,7 +26,7 @@
 
             <div class="mt-4">
                 <x-label for="data_nascimento" value="{{ __('Data Nascimento') }}" />
-                <x-input id="nasc" class="block mt-1 w-full" type="date" name="nasc" :value="old('nasc')" required autocomplete="username"  />
+                <x-input id="data_nasc" class="block mt-1 w-full" type="date" name="data_nasc" :value="old('nasc')" required autocomplete="username"  />
             </div>
 
             <div class="mt-4">

@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Aluno;
 
 class User extends Authenticatable
 {
@@ -65,5 +66,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function aluno()
+    {
+        return $this->hasOne(Aluno::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
