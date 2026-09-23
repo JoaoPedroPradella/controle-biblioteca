@@ -23,6 +23,10 @@
         <p>Autor: {{ $livro->autor }}</p>
         <p>Genero: {{ $livro->genero }}</p>
         <a href="/livro/{{ $livro->id }}">Detalhes</a>
+        <form action = "/livro/{{ $livro->id }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Apagar</button>
         <br>
         <br>
     @endforeach

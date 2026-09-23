@@ -68,13 +68,11 @@ class User extends Authenticatable
         ];
     }
 
+    // Indica que um Usuário tem um Aluno associado
     public function aluno()
     {
         return $this->hasOne(Aluno::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    
 }

@@ -103,6 +103,8 @@ class LivroController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Livro::findOrFail($id)->delete();
+
+        return redirect('/livros/lista')->with('msg', 'Livro excluído com sucesso!');
     }
 }

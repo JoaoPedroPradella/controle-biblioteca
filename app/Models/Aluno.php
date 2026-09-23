@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+
 
 class Aluno extends Model
 {
@@ -15,4 +17,10 @@ class Aluno extends Model
         'cpf',
         'data_nasc',
     ];
+
+    // Indica que um Aluno pertence a um Usuário
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

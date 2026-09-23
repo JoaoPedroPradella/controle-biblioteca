@@ -16,13 +16,20 @@ Route::middleware([
 
     Route::get('/alunos/lista', [AlunoController::class, 'index']);
 
+    // Rota para exibir a lista de livros cadastrados
     Route::get('/livros/lista', [LivroController::class, 'index']);
 
+    // Rota para exibir o formulário de cadastro de livros
     Route::get('/livro/cadastrar', [LivroController::class, 'create']);
 
+    // Rota para exibir os detalhes de um livro específico
     Route::get('/livro/{id}', [LivroController::class, 'show']);
 
+    // Rota para cadastrar um novo livro
     Route::post('/livros', [LivroController::class, 'store']);
+
+    // Rota para deletar um livro específico
+    Route::delete('/livro/{id}', [LivroController::class, 'destroy']);
 
     
     Route::get('/menu',  function () {
