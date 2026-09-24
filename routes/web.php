@@ -31,10 +31,15 @@ Route::middleware([
     // Rota para deletar um livro específico
     Route::delete('/livro/{id}', [LivroController::class, 'destroy']);
 
-    
+    // Rota para exibir o formulário de edição do livro
+    Route::get('/livro/editar/{id}', [LivroController::class, 'edit']);
+
+    // Rota para atualizar um livro
+    Route::put('/livro/update/{id}', [LivroController::class, 'update']);
+
+
+
     Route::get('/menu',  function () {
         return view('menu');
     })->name('menu');
-
-    
 });

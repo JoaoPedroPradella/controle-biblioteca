@@ -17,9 +17,9 @@ class LivroController extends Controller
         $busca = request('busca');
 
         if ($busca) {
-             $livros = Livro::where([
-                ['titulo', 'like', '%'.$busca.'%']
-             ])->get();
+            $livros = Livro::where([
+                ['titulo', 'like', '%' . $busca . '%']
+            ])->get();
         } else {
             $livros = Livro::all();
         }
@@ -87,15 +87,35 @@ class LivroController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $livro = Livro::findOrFail($id);
+
+        return view('livros/edit', ['livro' => $livro]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+
+        $data = $request->all();
+
+        if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
+            $requestImagem = $request->imagem;
+
+            $extensao = $requestImagem->extension();
+
+            // O md5 transforma essa informação em uma sequência de 32 caracteres hexadecimais
+            $nomeImagem = md5($requestImagem->getClientOriginalName() . strtotime("now")) . "." . $extensao;
+
+            $requestImagem->move(public_path('img/livros'), $nomeImagem);
+
+            $data['imagem'] = $nomeImagem;
+        }
+
+        Livro::findOrFail($request->id)->update($data);
+
+        return redirect('/livros/lista')->with('msg', 'Livro editado com sucesso!');
     }
 
     /**
