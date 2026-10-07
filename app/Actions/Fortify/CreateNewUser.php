@@ -34,9 +34,9 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
             ]);
-
-            Aluno::create([
-                'usuario_id' => $user->id,
+            
+            // O Laravel preenche automaticamente o campo user_id na tabela alunos com o ID do usuário, por conta do relacionamento definido no model User. Para isso usamos o comando "$user->aluno()->create".
+            $user->aluno()->create([
                 'matricula' => random_int(100000, 999999),
                 'cpf' => $input['cpf'],
                 'data_nasc' => $input['data_nasc'],

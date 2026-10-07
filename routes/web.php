@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BibliotecaController;
 use App\Http\Controllers\LivroController;
-use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\UsuarioController;
 
 
 Route::get('/', [BibliotecaController::class, 'index']);
@@ -14,7 +14,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    Route::get('/alunos/lista', [AlunoController::class, 'index']);
+    Route::get('/usuarios/lista', [UsuarioController::class, 'index']);
 
     // Rota para exibir a lista de livros cadastrados
     Route::get('/livros/lista', [LivroController::class, 'index']);

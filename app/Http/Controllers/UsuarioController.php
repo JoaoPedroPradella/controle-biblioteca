@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AlunoController extends Controller
+use App\Models\User;
+use App\Models\Aluno;
+
+class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('alunos/index');
+
+        $busca = request('busca');
+
+        // User::whith('aluno')->get() -> traz todos os usuarios com seus respectivos alunos, por conta do relacionamento definido no model User
+        if ($busca) {
+            $usuarios = User::with('aluno')->where([
+                ['name', 'like', '%' . $busca . '%']
+            ])->get();
+        } else {
+            $usuarios = User::with('aluno')->get();
+        }
+        return view('usuarios/index', ['usuarios' => $usuarios, 'busca' => $busca]);
     }
 
     /**

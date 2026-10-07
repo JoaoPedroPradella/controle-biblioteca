@@ -3,6 +3,7 @@
 @section('title', 'Livros')
 
 @section('header')
+    <button><a href="../menu">Menu</a></button>
     <h1>Lista de Livros</h1>
 @endsection
 @section('main')
@@ -28,11 +29,11 @@
             @csrf
             @method('DELETE')
             <button type="submit">Apagar</button>
-        <br>
-        <br>
+            <br>
+            <br>
     @endforeach
     @if (count($livros) == 0)
-         <p>Não foi possível encontrar nenhum livro com {{ $busca }}! <a href="/livros/lista">Ver todos</a></p>
+        <p>Não foi possível encontrar nenhum livro com {{ $busca }}! <a href="/livros/lista">Ver todos</a></p>
     @elseif (count($livros) == 0)
         <p>Não há livros cadastrados</p>
     @endif

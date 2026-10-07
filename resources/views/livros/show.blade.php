@@ -6,7 +6,7 @@
     <h1>Detalhes do livro {{ $livro->titulo }}</h1>
 @endsection
 @section('main')
-{{-- enctype é necessário para enviar arquivos por um form html--}}
+    {{-- enctype é necessário para enviar arquivos por um form html --}}
     <div>
         @if ($livro->imagem)
             <img src="/img/livros/{{ $livro->imagem }}" alt="Imagem do Livro {{ $livro->titulo }}" width="200">
