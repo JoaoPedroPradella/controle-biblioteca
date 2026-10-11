@@ -90,7 +90,10 @@ class AlunoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $aluno = Aluno::findOrFail($id);
+        $usuario = User::findOrFail($aluno->user_id);
+
+        return view('alunos/show', ['aluno' => $aluno, 'usuario' => $usuario]);
     }
 
     /**
@@ -98,7 +101,10 @@ class AlunoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $aluno = Aluno::findOrFail($id);
+        $usuario = User::findOrFail($aluno->user_id);
+
+        return view('alunos/edit', ['aluno' => $aluno, 'usuario' => $usuario]);
     }
 
     /**
@@ -106,7 +112,36 @@ class AlunoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $aluno = new Aluno;
+        $usuario = new User;
+
+        // if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
+        //     $requestImagem = $request->imagem;
+
+        //     $extensao = $requestImagem->extension();
+
+        //     // O md5 transforma essa informação em uma sequência de 32 caracteres hexadecimais
+        //     $nomeImagem = md5($requestImagem->getClientOriginalName() . strtotime("now")) . "." . $extensao;
+
+        //     $requestImagem->move(public_path('img/livros'), $nomeImagem);
+
+        //     $data['imagem'] = $nomeImagem;
+        // }
+        
+        $usuario->name = $request->nome;
+        $aluno->cpf = $request->cpf;
+        $aluno->data_nasc = $request->data_nasc;
+        $usuario->email = $request->email;
+        $usuario->password = Hash::make($request['password']);
+        $usuario->type = 'aluno';
+
+        Aluno::findOrFail($aluno)->update($data);
+        User::findOrFail($usuario)->update($data);
+
+
+        return redirect('/livros/lista')->with('msg', 'Livro editado com sucesso!');
+    }
+
     }
 
     /**

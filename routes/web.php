@@ -44,7 +44,11 @@ Route::middleware([
 
     Route::post('/aluno', [AlunoController::class, 'store']);
 
+    Route::get('/aluno/{id}', [AlunoController::class, 'show']);
 
+    Route::get('/aluno/editar/{id}', [AlunoController::class, 'edit']);
+
+    Route::put('/aluno/update/{id}', [AlunoController::class, 'update']);
 
     Route::get('/menu',  function () {
         return view('menu');
