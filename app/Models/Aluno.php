@@ -11,8 +11,12 @@ class Aluno extends Model
     //
     public $timestamps = false;
 
+    protected $casts = [
+        'data_nasc' => 'date',
+    ];
+
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'matricula',
         'cpf',
         'data_nasc',

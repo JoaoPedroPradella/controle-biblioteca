@@ -22,13 +22,14 @@ class AlunoController extends Controller
     {
         $busca = request('busca');
 
-        // User::whith('aluno')->get() -> traz todos os alunos com seus respectivos alunos, por conta do relacionamento definido no model User
+        // Aluno::with('user') traz os dados do aluno junto com os dados do usuário relacionado, evitando consultas adicionais ao banco de dados.
+        // Busca apenas os alunos cujo usuário vinculado tenha o nome informado na pesquisa
         if ($busca) {
-            $alunos = User::with('aluno')->where([
-                ['name', 'like', '%' . $busca . '%']
-            ])->get();
+            $alunos = Aluno::with('user')->whereHas('user', function ($query) use ($busca) {
+                $query->where('name', 'like', '%' . $busca . '%');
+            })->get();
         } else {
-            $alunos = User::with('aluno')->get();
+            $alunos = Aluno::with('user')->get();
         }
         return view('alunos/index', ['alunos' => $alunos, 'busca' => $busca]);
     }
@@ -112,43 +113,32 @@ class AlunoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $aluno = new Aluno;
-        $usuario = new User;
+        $aluno = Aluno::findOrFail($id);
 
-        // if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
-        //     $requestImagem = $request->imagem;
+        $aluno->update([
+            'cpf' => $request->cpf,
+            'data_nasc' => $request->data_nasc,
+        ]);
 
-        //     $extensao = $requestImagem->extension();
+        $aluno->user->update([
+            'name' => $request->nome,
+            'email' => $request->email,
+        ]);
 
-        //     // O md5 transforma essa informação em uma sequência de 32 caracteres hexadecimais
-        //     $nomeImagem = md5($requestImagem->getClientOriginalName() . strtotime("now")) . "." . $extensao;
-
-        //     $requestImagem->move(public_path('img/livros'), $nomeImagem);
-
-        //     $data['imagem'] = $nomeImagem;
-        // }
-        
-        $usuario->name = $request->nome;
-        $aluno->cpf = $request->cpf;
-        $aluno->data_nasc = $request->data_nasc;
-        $usuario->email = $request->email;
-        $usuario->password = Hash::make($request['password']);
-        $usuario->type = 'aluno';
-
-        Aluno::findOrFail($aluno)->update($data);
-        User::findOrFail($usuario)->update($data);
-
-
-        return redirect('/livros/lista')->with('msg', 'Livro editado com sucesso!');
+        return redirect('/alunos/lista')->with('msg', 'Aluno editado com sucesso!');
     }
 
-    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $aluno = Aluno::findOrFail($id);
+        $aluno->delete(); // Deleta o aluno
+        $aluno->user->delete(); // Deleta o usuário associado ao aluno
+
+
+        return redirect('/alunos/lista')->with('msg', 'Aluno excluído com sucesso!');
     }
 }

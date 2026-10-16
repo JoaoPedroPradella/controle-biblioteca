@@ -20,9 +20,9 @@
         @if ($aluno->imagem)
             <img src="/img/alunos/{{ $aluno->imagem }}" alt="Imagem do aluno {{ $aluno->titulo }}" width="200">
         @endif
-        <p>Nome: {{ $aluno->name }}</p>
-        <p>E-mail: {{ $aluno->email }}</p>
-        <p>Matricula: {{ $aluno->aluno->matricula }}</p>
+        <p>Nome: {{ $aluno->user->name }}</p>
+        <p>E-mail: {{ $aluno->user->email }}</p>
+        <p>Matricula: {{ $aluno->matricula }}</p>
         <a href="/aluno/{{ $aluno->id }}">Detalhes</a>
         <a href="/aluno/editar/{{ $aluno->id }}">Editar</a>
         <form action = "/aluno/{{ $aluno->id }}" method="POST">

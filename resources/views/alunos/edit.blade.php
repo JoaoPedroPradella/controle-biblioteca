@@ -23,10 +23,6 @@
         <label for="email">E-mail:</label>
         <input type="text" name="email" id="email" required value="{{ $usuario->email }}"><br>
 
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" required value="{{ $usuario->password }}"><br>
-
-
         {{-- <label for="imagem">Imagem do aluno:</label>
         <input type="file" name="imagem" id="imagem" accept="image/*"><br>
         <div>

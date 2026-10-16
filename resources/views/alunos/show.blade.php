@@ -17,7 +17,7 @@
     <div>
         <p>Nome: {{ $usuario->name }}</p>
         <p>CPF: {{ $aluno->cpf }}</p>
-        <p>Data de Nascimento: {{ $aluno->data_nasc }}</p>
+        <p>Data de Nascimento: {{ $aluno->data_nasc->format('d/m/Y') }}</p>
         <p>Matricula: {{ $aluno->matricula }}</p>
         <p>E-mail: {{ $usuario->email }}</p>
         <p>Tipo: {{ $usuario->type }}</p>

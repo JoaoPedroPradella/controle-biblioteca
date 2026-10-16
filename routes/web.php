@@ -50,6 +50,8 @@ Route::middleware([
 
     Route::put('/aluno/update/{id}', [AlunoController::class, 'update']);
 
+    Route::delete('/aluno/{id}', [AlunoController::class, 'destroy']);
+
     Route::get('/menu',  function () {
         return view('menu');
     })->name('menu');
