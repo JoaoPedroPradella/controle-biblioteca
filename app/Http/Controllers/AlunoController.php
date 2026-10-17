@@ -29,7 +29,7 @@ class AlunoController extends Controller
                 $query->where('name', 'like', '%' . $busca . '%');
             })->get();
         } else {
-            $alunos = Aluno::with('user')->get();
+            $alunos = Aluno::whereHas('user')->get();
         }
         return view('alunos/index', ['alunos' => $alunos, 'busca' => $busca]);
     }

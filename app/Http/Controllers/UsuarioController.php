@@ -6,9 +6,17 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Aluno;
+use Illuminate\Support\Facades\Validator;
+use App\Actions\Fortify\PasswordValidationRules;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+
+
 
 class UsuarioController extends Controller
 {
+    use PasswordValidationRules;
+
     /**
      * Display a listing of the resource.
      */
@@ -17,13 +25,13 @@ class UsuarioController extends Controller
 
         $busca = request('busca');
 
-        // User::whith('aluno')->get() -> traz todos os usuarios com seus respectivos alunos, por conta do relacionamento definido no model User
+        // User::whereDoesntHave('aluno')->get() -> Retorna somente os usuários que não tem vinculo com alunos, ou seja usuários do tipo ADM.
         if ($busca) {
-            $usuarios = User::with('aluno')->where([
+            $usuarios = User::whereDoesntHave('aluno')->where([
                 ['name', 'like', '%' . $busca . '%']
             ])->get();
         } else {
-            $usuarios = User::with('aluno')->get();
+            $usuarios = User::whereDoesntHave('aluno')->get();
         }
         return view('usuarios/index', ['usuarios' => $usuarios, 'busca' => $busca]);
     }
@@ -33,15 +41,51 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('usuarios/create');
     }
 
     /**
      * Store a newly created resource in storage.
+     * 
      */
+
+
     public function store(Request $request)
     {
-        //
+
+
+
+        Validator::make(
+            $request->all(),
+            [
+                'nome' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'senha' => $this->passwordRules(),
+            ],
+
+            [
+                'required' => 'O campo :attribute é obrigatório.',
+                'email' => 'Informe um e-mail válido.',
+                'unique' => 'Este :attribute já está cadastrado.',
+                'confirmed' => 'A confirmação de senha não confere.',
+                'max' => 'O campo :attribute não pode ter mais que :max caracteres.',
+            ],
+            // Os atributos abaixo são usados para personalizar as mensagens de erro, substituindo o nome do campo pelo valor definido.
+            [
+                'nome' => 'nome',
+                'email' => 'e-mail',
+                'senha' => 'senha',
+            ]
+        )->validate();
+
+        User::create([
+            'name' => $request['nome'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['senha']),
+            'type' => 'admin'
+        ]);
+
+        return redirect('/usuarios/lista')->with('msg', 'Usuario cadastrado com sucesso!');
     }
 
     /**
@@ -49,7 +93,9 @@ class UsuarioController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $usuario = User::findOrFail($id);
+
+        return view('usuarios/show', ['usuario' => $usuario]);
     }
 
     /**

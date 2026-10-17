@@ -22,7 +22,6 @@
         @endif
         <p>Nome: {{ $usuario->name }}</p>
         <p>Autor: {{ $usuario->email }}</p>
-        <p>Matricula: {{ $usuario->aluno->matricula }}</p>
         <a href="/usuario/{{ $usuario->id }}">Detalhes</a>
         <a href="/usuario/editar/{{ $usuario->id }}">Editar</a>
         <form action = "/usuario/{{ $usuario->id }}" method="POST">

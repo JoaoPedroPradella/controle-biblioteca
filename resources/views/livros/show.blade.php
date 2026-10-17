@@ -29,5 +29,7 @@
             <textarea name="sinopse" id="sinopse" rows="4" cols="50" readonly>{{ $livro->sinopse }}</textarea><br>
         </div>
     </div>
+    <a href="/livros/lista"><button>Lista</button></a>
+
 
 @endsection

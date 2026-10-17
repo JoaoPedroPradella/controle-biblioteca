@@ -37,7 +37,7 @@ Route::middleware([
     // Rota para atualizar um livro
     Route::put('/livro/update/{id}', [LivroController::class, 'update']);
 
-    // -------------------------- Rotas para Usuarios --------------------------
+    // -------------------------- Rotas para Alunos --------------------------
     Route::get('/alunos/lista', [AlunoController::class, 'index']);
 
     Route::get('/aluno/cadastrar', [AlunoController::class, 'create']);
@@ -51,6 +51,17 @@ Route::middleware([
     Route::put('/aluno/update/{id}', [AlunoController::class, 'update']);
 
     Route::delete('/aluno/{id}', [AlunoController::class, 'destroy']);
+
+    // -------------------------- Rotas para Alunos --------------------------
+    Route::get('/usuarios/lista', [UsuarioController::class, 'index']);
+
+    Route::get('/usuario/cadastrar', [UsuarioController::class, 'create']);
+
+    Route::post('/usuario', [UsuarioController::class, 'store']);
+
+    Route::get('/usuario/{id}', [UsuarioController::class, 'show']);
+
+
 
     Route::get('/menu',  function () {
         return view('menu');
