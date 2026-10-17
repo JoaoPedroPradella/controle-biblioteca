@@ -61,6 +61,14 @@ Route::middleware([
 
     Route::get('/usuario/{id}', [UsuarioController::class, 'show']);
 
+    Route::get('/usuario/editar/{id}', [UsuarioController::class, 'edit']);
+
+    Route::put('/usuario/update/{id}', [UsuarioController::class, 'update']);
+    
+    Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy']);
+
+
+
 
 
     Route::get('/menu',  function () {

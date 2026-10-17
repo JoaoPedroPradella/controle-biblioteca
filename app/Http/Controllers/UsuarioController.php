@@ -103,7 +103,9 @@ class UsuarioController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $usuario = User::findOrFail($id);
+
+        return view('usuarios/edit', ['usuario' => $usuario]);
     }
 
     /**
@@ -111,7 +113,36 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
+        Validator::make(
+            $request->all(),
+            [
+                'nome' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+            ],
+
+            [
+                'required' => 'O campo :attribute é obrigatório.',
+                'email' => 'Informe um e-mail válido.',
+                'unique' => 'Este :attribute já está cadastrado.',
+                'confirmed' => 'A confirmação de senha não confere.',
+                'max' => 'O campo :attribute não pode ter mais que :max caracteres.',
+            ],
+            // Os atributos abaixo são usados para personalizar as mensagens de erro, substituindo o nome do campo pelo valor definido.
+            [
+                'nome' => 'nome',
+                'email' => 'e-mail',
+            ]
+        )->validate();
+
+        $usuario = User::findOrFail($id);
+
+        $usuario->name = $request->input('nome');
+        $usuario->email = $request->input('email');
+
+        $usuario->save();
+
+        return redirect('/usuarios/lista')->with('msg', 'Usuario atualizado com sucesso!');
     }
 
     /**
@@ -119,6 +150,8 @@ class UsuarioController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        User::findOrFail($id)->delete();
+
+        return redirect('/usuarios/lista')->with('msg', 'Usuario excluído com sucesso!');
     }
 }
