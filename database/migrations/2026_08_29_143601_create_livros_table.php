@@ -16,13 +16,15 @@ return new class extends Migration
             $table->string('descricao', 200);
             $table->string('autor', 100);
             $table->string('editora', 150);
+            $table->string('isbn', 13);
             $table->date('data_pub');
-            $table->string('genero', '100');
-            $table->string('idioma', '100');
-            $table->integer('qtd_pag')->unsigned();
-            $table->enum('formato', ['fisico', 'ebook']);
+            $table->string('genero', 100);
+            $table->string('idioma', 100);
+            $table->unsignedInteger('qtd_pag');
             $table->enum('tipo_capa', ['brochura', 'capa_dura'])->nullable();
             $table->text('sinopse')->nullable();
+            // Grava automaticamente os campos created_at e updated_at
+            $table->timestamps();
         });
     }
 

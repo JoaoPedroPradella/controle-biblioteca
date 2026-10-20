@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Livro;
 
 
@@ -42,16 +42,32 @@ class LivroController extends Controller
     {
         $livro = new Livro;
 
-        $livro->titulo = $request->titulo;
-        $livro->autor = $request->autor;
-        $livro->editora = $request->editora;
-        $livro->data_pub = $request->data_pub;
-        $livro->genero = $request->genero;
-        $livro->idioma = $request->idioma;
-        $livro->qtd_pag = $request->qtd_pag;
-        $livro->formato = $request->formato;
-        $livro->tipo_capa = $request->tipo_capa;
-        $livro->sinopse = $request->sinopse;
+
+        $dados = $request->validate([
+            'titulo' => 'required|string|max:200',
+            'autor' => 'required|string|max:100',
+            'editora' => 'required|string|max:150',
+            'isbn' => 'nullable|string|max:13',
+            'data_pub' => 'required|date',
+            'genero' => 'required|string|max:100',
+            'idioma' => 'required|string|max:100',
+            'qtd_pag' => 'required|integer|min:1|max:500',
+            'tipo_capa' => 'nullable|in:brochura,capa_dura',
+            'sinopse' => 'nullable|string',
+            'qtd_exemp' => 'required|integer|min:1|max:500',
+        ]);
+
+
+        // $livro->titulo = $request->titulo;
+        // $livro->autor = $request->autor;
+        // $livro->editora = $request->editora;
+        // $livro->data_pub = $request->data_pub;
+        // $livro->genero = $request->genero;
+        // $livro->idioma = $request->idioma;
+        // $livro->qtd_pag = $request->qtd_pag;
+        // $livro->formato = $request->formato;
+        // $livro->tipo_capa = $request->tipo_capa;
+        // $livro->sinopse = $request->sinopse;
 
         if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             $requestImagem = $request->imagem;
@@ -66,7 +82,25 @@ class LivroController extends Controller
             $livro->imagem = $nomeImagem;
         }
 
-        $livro->save();
+        DB::transaction(function () use ($dados) {
+
+            // Guarda a quantidade antes de criar o livro
+            $qtd_exemp = $dados['qtd_exemp'];
+
+            unset($dados['qtd_exemp']);
+
+            // Cadastra o livro
+            $livro = Livro::create($dados);
+
+            // Cria os exemplares vinculados ao livro
+            for ($i = 0; $i < $qtd_exemp; $i++) {
+                $livro->exemplares()->create([
+                    'status' => 'disponivel',
+                ]);
+            }
+        });
+
+        // $livro->save();
 
         return redirect('/livros/lista')->with('msg', 'Livro cadastrado com sucesso!');
     }
