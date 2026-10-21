@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Aluno;
+use App\Models\Emprestimo;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -135,10 +136,17 @@ class AlunoController extends Controller
     public function destroy(string $id)
     {
         $aluno = Aluno::findOrFail($id);
-        $aluno->delete(); // Deleta o aluno
-        $aluno->user->delete(); // Deleta o usuário associado ao aluno
+
+        if (Emprestimo::where('aluno_id', $id)->exists()) {
+            $aluno->update(['ativo' => false]);
+            $aluno->user->update(['situation' => "inativo"]);
+            return redirect('/alunos/lista')->with('msg', 'Não é possível excluir este aluno, pois ele possui empréstimos vinculados. O Aluno foi desativado.');
+        } else {
+            $aluno->delete(); // Deleta o aluno
+            $aluno->user->delete(); // Deleta o usuário associado ao aluno
+            return redirect('/alunos/lista')->with('msg', 'Aluno excluído com sucesso!');
+        }
 
 
-        return redirect('/alunos/lista')->with('msg', 'Aluno excluído com sucesso!');
     }
 }

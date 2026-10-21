@@ -4,10 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Aluno;
+use App\Models\Exemplare;
 
 
 class Emprestimo extends Model
 {
+    // Indica que um Aluno pertence a um Usuário
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function aluno()
+    {
+        return $this->belongsTo(Aluno::class);
+    }
+
+    public function exemplar()
+    {
+        return $this->belongsTo(Exemplare::class);
+    }
+
+
     //
     public $timestamps = false;
 
@@ -18,17 +37,6 @@ class Emprestimo extends Model
         'data_dev' => 'date',
     ];
 
-    // fillable permite enviar vários dados de uma vez para o banco de dados, usando um array associativo, sem precisar setar cada atributo individualmente.
-    protected $fillable = [
-        'user_id',
-        'matricula',
-        'cpf',
-        'data_nasc',
-    ];
-
-    // Indica que um Aluno pertence a um Usuário
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // Guarded é o oposto de fillable, ou seja, tudo que estiver nessa lista não poderá ser atualizado via POST, e os demais campos poderão ser atualizados.
+    protected $guarded = [];
 }

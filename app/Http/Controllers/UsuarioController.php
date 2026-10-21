@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Aluno;
+use App\Models\Emprestimo;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
 use Illuminate\Support\Facades\Hash;
@@ -113,7 +114,7 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
         Validator::make(
             $request->all(),
             [
@@ -150,8 +151,15 @@ class UsuarioController extends Controller
      */
     public function destroy(string $id)
     {
-        User::findOrFail($id)->delete();
+        $usuario = User::findOrFail($id);
 
-        return redirect('/usuarios/lista')->with('msg', 'Usuario excluído com sucesso!');
+        if (Emprestimo::where('user_id', $id)->exists()) {
+            $usuario->update(['situation' => "inativo"]);
+            Aluno::where('user_id', $id)->update(['ativo' => false]);
+            return redirect('/usuarios/lista')->with('msg', 'Não é possível excluir este usuário, pois ele possui empréstimos vinculados. O usuário foi desativado.');
+        } else {
+            $usuario->delete();
+            return redirect('/usuarios/lista')->with('msg', 'Usuario excluído com sucesso!');
+        }
     }
 }

@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Livro;
+use App\Models\Emprestimo;
 
 
 class Exemplare extends Model
 {
-    public function livro()
+    public function emprestimos()
     {
-        return $this->belongsTo(Livro::class);
+        return $this->hasMany(Emprestimo::class);
     }
+
 
     protected static function booted(): void
     {

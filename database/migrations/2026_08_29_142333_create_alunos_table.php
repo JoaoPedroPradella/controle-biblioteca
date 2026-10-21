@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('matricula')->unique();
             $table->string('cpf', 11)->unique();
             $table->date('data_nasc');
-        });
+            $table->boolean('ativo')->default(true);
+            // Grava automaticamente os campos created_at e updated_at
+            $table->timestamps();});
     }
 
     /**

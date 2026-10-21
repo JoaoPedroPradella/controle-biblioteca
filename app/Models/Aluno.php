@@ -4,12 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Emprestimo;
 
 
 class Aluno extends Model
 {
-    //
-    public $timestamps = false;
+
+    public function emprestimo()
+    {
+        return $this->hasMany(Emprestimo::class);
+    }
+
+    // 
+    // public $timestamps = false;
 
     protected $casts = [
         'data_nasc' => 'date',

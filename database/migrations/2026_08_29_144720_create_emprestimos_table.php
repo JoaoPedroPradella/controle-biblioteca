@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('emprestimos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('aluno_id')->constrained('alunos');
-            $table->foreignId('id_usuario')->constrained('usuarios');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('exemplar_id')->constrained('exemplares');
             $table->date('data_retirada');
             // data_prev_dev: data prevista para devolução
             $table->date('data_prev_dev');

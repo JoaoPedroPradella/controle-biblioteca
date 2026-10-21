@@ -190,20 +190,22 @@ class LivroController extends Controller
     public function destroy(string $id)
     {
 
-        // Validação dever verificar se algum exemplar do livro está vinculado a algum empréstimo, caso esteja não permitir a exclusão do livro
+        $livro = Livro::findOrFail($id);
 
+        $possuiEmprestimos = $livro->exemplares()
+            ->whereHas('emprestimos')
+            ->exists();
 
-        // if (!Livro::findOrFail($id)->exemplares()->exists()) {
-        //     return redirect('/livros/lista')->with('msg', 'Não é possível excluir o livro, pois existem exemplares vinculados a ele.');
-        // } else {
-        //     Livro::findOrFail($id)->exemplares()->delete();
-        //     Livro::findOrFail($id)->delete();
-        // }
+        if ($possuiEmprestimos) {
+            $livro->update(['ativo' => false]);
+            return redirect('/livros/lista')->with(
+                'msg',
+                'Não é possível excluir o livro, pois um ou mais exemplares possuem empréstimos vinculados. O livro foi desativado.'
+            );
+        }
 
-        // Por enquanto, para fins de teste, vou manter a exclusão do livro e de seus exemplares
-        Livro::findOrFail($id)->exemplares()->delete();
-        Livro::findOrFail($id)->delete();
-
+        $livro->exemplares()->delete();
+        $livro->delete();
 
         return redirect('/livros/lista')->with('msg', 'Livro excluído com sucesso!');
     }
