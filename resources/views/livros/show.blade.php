@@ -34,12 +34,12 @@
         @if ($livro->exemplares->isEmpty())
             <p>Não há exemplares cadastrados para este livro.</p>
         @else
-            <ul>
-                @foreach ($livro->exemplares as $exemplar)
-                    <li>{{ $exemplar->codigo_patrimonio }} - Status: {{ $exemplar->status }}</li>
-                    <li>Exemplar {{ $loop->iteration }}</li>
-                @endforeach
-            </ul>
+            @foreach ($livro->exemplares as $exemplar)
+                <li>{{ $exemplar->codigo_patrimonio }} - Status: {{ $exemplar->status }}</li>
+                <li>Exemplar {{ $loop->iteration }}</li>
+                
+            @endforeach
+
         @endif
     </div>
     <a href="/livros/lista"><button>Lista</button></a>

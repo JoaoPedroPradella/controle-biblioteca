@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Exemplare;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Livro;
@@ -18,10 +19,11 @@ class LivroController extends Controller
 
         if ($busca) {
             $livros = Livro::where([
-                ['titulo', 'like', '%' . $busca . '%']
+                ['titulo', 'like', '%' . $busca . '%'],
+                ['ativo', '=', true]
             ])->get();
         } else {
-            $livros = Livro::all();
+            $livros = Livro::where('ativo', true)->get();
         }
 
         return view('livros/index', ['livros' => $livros, 'busca' => $busca]);
@@ -131,8 +133,16 @@ class LivroController extends Controller
      */
     public function update(Request $request)
     {
+        $livro = Livro::findOrFail($request->id);
 
-        $data = $request->all();
+        $dados = $request->all();
+        // $status_exemplares = $request->input('status_exemplares', []);
+
+        // unset($data['status']);
+
+        $statusExemplares = $dados['status_exemplares'] ?? [];
+
+        unset($dados['status_exemplares']);
 
         if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             $requestImagem = $request->imagem;
@@ -147,7 +157,29 @@ class LivroController extends Controller
             $data['imagem'] = $nomeImagem;
         }
 
-        Livro::findOrFail($request->id)->update($data);
+        DB::transaction(function () use (
+            $livro,
+            $dados,
+            $statusExemplares
+        ) {
+            $livro->update($dados);
+
+            // A variável statusExemplares é um array com ID e status dos exemplares.
+            // Quando falamos no "foreach" $id => $status, estamos percorrendo esse array, onde $id é a chave (ID do exemplar) e $status é o valor (novo status do exemplar).
+            foreach ($statusExemplares as $id => $status) {
+                $exemplar = Exemplare::where('livro_id', $livro->id)->findOrFail($id);
+
+                // Não permitir alterar manualmente um exemplar emprestado.
+                if ($exemplar->status === 'emprestado') {
+                    abort(422, 'Não é permitido alterar manualmente o status de um exemplar emprestado.');
+                }
+
+                $exemplar->update([
+                    'status' => $status,
+                ]);
+            }
+        });
+
 
         return redirect('/livros/lista')->with('msg', 'Livro editado com sucesso!');
     }
@@ -157,7 +189,21 @@ class LivroController extends Controller
      */
     public function destroy(string $id)
     {
+
+        // Validação dever verificar se algum exemplar do livro está vinculado a algum empréstimo, caso esteja não permitir a exclusão do livro
+
+
+        // if (!Livro::findOrFail($id)->exemplares()->exists()) {
+        //     return redirect('/livros/lista')->with('msg', 'Não é possível excluir o livro, pois existem exemplares vinculados a ele.');
+        // } else {
+        //     Livro::findOrFail($id)->exemplares()->delete();
+        //     Livro::findOrFail($id)->delete();
+        // }
+
+        // Por enquanto, para fins de teste, vou manter a exclusão do livro e de seus exemplares
+        Livro::findOrFail($id)->exemplares()->delete();
         Livro::findOrFail($id)->delete();
+
 
         return redirect('/livros/lista')->with('msg', 'Livro excluído com sucesso!');
     }

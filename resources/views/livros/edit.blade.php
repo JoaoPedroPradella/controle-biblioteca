@@ -33,14 +33,6 @@
         <input type="number" min="1" name="qtd_pag" id="qtd_pag" required value="{{ $livro->qtd_pag }}"><br>
 
         <div>
-            <label for="formato">Formato:</label>
-            <select name="formato" id="formato" required>
-                <option value="fisico">Físico</option>
-                <option value="ebook" {{ $livro->formato == 'ebook' ? "selected='selected'" : '' }}>Ebook</option>
-            </select>
-        </div>
-
-        <div>
             <label for="tipo_capa">Tipo da Capa:</label>
             <select name="tipo_capa" id="tipo_capa" required>
                 <option value="capa_dura">Capa Dura</option>
@@ -63,6 +55,34 @@
                 <p>Sem imagem</p>
             @endif
         </div>
+
+
+        @if ($livro->exemplares->isEmpty())
+            <p>Não há exemplares cadastrados para este livro.</p>
+        @else
+            @foreach ($livro->exemplares as $exemplar)
+                <li>{{ $exemplar->codigo_patrimonio }} - Status: {{ $exemplar->status }}</li>
+                <li>Exemplar {{ $loop->iteration }}</li>
+
+                // O controller recebe o name e o value do select, e atualiza o status do exemplar com o id correspondente
+                <select name="status_exemplares[{{ $exemplar->id }}]" id="status_{{ $exemplar->id }}">
+                    @foreach ([
+            'disponivel' => 'Disponível', // Validar para não alterar caso o exemplar esteja emprestado, reservado ou danificado
+            'danificado' => 'Danificado',
+            'perdido' => 'Perdido',
+            'bloqueado' => 'Bloqueado',
+            'baixado' => 'Baixado',
+        ] as $valor => $descricao)
+        // Envia o valor ao controller, o valor é a coluna esquerda, enquanto a coluna direita é a descrição
+                        <option value="{{ $valor }}" @selected($exemplar->status === $valor)>
+                            {{ $descricao }}
+                        </option>
+                    @endforeach
+                </select>
+            @endforeach
+
+        @endif
+
         <input type="submit" value="Editar">
     </form>
 

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('qtd_pag');
             $table->enum('tipo_capa', ['brochura', 'capa_dura'])->nullable();
             $table->text('sinopse')->nullable();
+            $table->boolean('ativo')->default(true);
             // Grava automaticamente os campos created_at e updated_at
             $table->timestamps();
         });
