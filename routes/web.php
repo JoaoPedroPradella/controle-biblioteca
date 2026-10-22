@@ -5,7 +5,8 @@ use App\Http\Controllers\BibliotecaController;
 use App\Http\Controllers\LivroController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AlunoController;
-
+use App\Http\Controllers\EmprestimoController;
+use App\Models\Emprestimo;
 
 Route::get('/', [BibliotecaController::class, 'index']);
 
@@ -67,6 +68,8 @@ Route::middleware([
     
     Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy']);
 
+    // -------------------------- Rotas para Emprestimos  --------------------------
+    Route::get('/emprestimos/lista', [EmprestimoController::class, 'index']);
 
 
 

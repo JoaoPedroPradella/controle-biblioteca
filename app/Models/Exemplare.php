@@ -8,6 +8,11 @@ use App\Models\Emprestimo;
 
 class Exemplare extends Model
 {
+    public function livro()
+    {
+        return $this->belongsTo(Livro::class);
+    }
+
     public function emprestimos()
     {
         return $this->hasMany(Emprestimo::class);

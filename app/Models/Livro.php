@@ -8,7 +8,7 @@ use App\Models\Exemplare;
 
 class Livro extends Model
 {
-    public function exemplares()
+    public function exemplar()
     {
         return $this->hasMany(Exemplare::class);
     }

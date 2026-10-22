@@ -64,7 +64,7 @@
                 <li>{{ $exemplar->codigo_patrimonio }} - Status: {{ $exemplar->status }}</li>
                 <li>Exemplar {{ $loop->iteration }}</li>
 
-                // O controller recebe o name e o value do select, e atualiza o status do exemplar com o id correspondente
+                {{-- O controller recebe o name e o value do select, e atualiza o status do exemplar com o id correspondente --}}
                 <select name="status_exemplares[{{ $exemplar->id }}]" id="status_{{ $exemplar->id }}">
                     @foreach ([
             'disponivel' => 'Disponível', // Validar para não alterar caso o exemplar esteja emprestado, reservado ou danificado
