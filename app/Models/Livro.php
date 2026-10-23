@@ -8,9 +8,9 @@ use App\Models\Exemplare;
 
 class Livro extends Model
 {
-    public function exemplar()
+    public function exemplares()
     {
-        return $this->hasMany(Exemplare::class);
+        return $this->hasMany(Exemplare::class, 'livro_id');
     }
 
     // O HasFactory é usado para preenchimento de dados de teste, usados no arquivo database/factories/LivroFactory.php

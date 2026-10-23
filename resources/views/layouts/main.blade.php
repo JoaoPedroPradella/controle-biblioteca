@@ -41,6 +41,9 @@
         <a href="https://www.instagram.com" target="_blank">Instagram</a>
         <a href="https://www.facebook.com" target="_blank">Facebook</a>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    @yield('scripts')
 </body>
 
 </html>

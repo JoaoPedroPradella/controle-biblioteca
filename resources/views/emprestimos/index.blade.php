@@ -28,11 +28,13 @@
         <p>Aluno: {{ $emprestimo->user->name }}</p>
         <p>Livro: {{ $emprestimo->exemplar->livro->titulo }}</p>
         <p>Exemplar (Patrimônio): {{ $emprestimo->exemplar->codigo_patrimonio }}</p>
-        <p>Exemplar (Patrimônio): {{ $emprestimo->exemplar->codigo_patrimonio }}</p>
-        <p>Data de Empréstimo: {{ $emprestimo->data_retirada }}</p>
+        <p>Data de Empréstimo: {{ $emprestimo->data_retirada->format('d/m/Y') }}</p>
+        <p>Data Prevista para Devolução: {{ $emprestimo->data_prev_dev->format('d/m/Y') }}</p>
         <p>Data de Devolução: {{ $emprestimo->data_dev }}</p>
+
+
         {{-- ?? quer dizer null, então se o valor for null use false --}}
-        <p>Status: 
+        <p>Status:
             @if ($emprestimo->data_dev)
                 Devolvido
             @elseif ($emprestimo->data_prev_dev->lt(today()) && !$emprestimo->data_dev)

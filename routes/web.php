@@ -65,13 +65,18 @@ Route::middleware([
     Route::get('/usuario/editar/{id}', [UsuarioController::class, 'edit']);
 
     Route::put('/usuario/update/{id}', [UsuarioController::class, 'update']);
-    
+
     Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy']);
 
     // -------------------------- Rotas para Emprestimos  --------------------------
     Route::get('/emprestimos/lista', [EmprestimoController::class, 'index']);
 
+    Route::get('/emprestimo/cadastrar', [EmprestimoController::class, 'create']);
 
+    // Pesquisa de livros para a view de criação de empréstimos
+    Route::get('/emprestimos/buscar-livros', [EmprestimoController::class, 'buscarLivros'])->name('emprestimos.buscarLivros');
+
+    Route::post('/emprestimos', [EmprestimoController::class, 'store']);
 
 
     Route::get('/menu',  function () {
