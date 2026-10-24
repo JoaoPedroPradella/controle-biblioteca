@@ -42,9 +42,6 @@ class LivroController extends Controller
      */
     public function store(Request $request)
     {
-        $livro = new Livro;
-
-
         $dados = $request->validate([
             'titulo' => 'required|string|max:200',
             'autor' => 'required|string|max:100',
@@ -59,18 +56,6 @@ class LivroController extends Controller
             'qtd_exemp' => 'required|integer|min:1|max:500',
         ]);
 
-
-        // $livro->titulo = $request->titulo;
-        // $livro->autor = $request->autor;
-        // $livro->editora = $request->editora;
-        // $livro->data_pub = $request->data_pub;
-        // $livro->genero = $request->genero;
-        // $livro->idioma = $request->idioma;
-        // $livro->qtd_pag = $request->qtd_pag;
-        // $livro->formato = $request->formato;
-        // $livro->tipo_capa = $request->tipo_capa;
-        // $livro->sinopse = $request->sinopse;
-
         if ($request->hasFile('imagem') && $request->file('imagem')->isValid()) {
             $requestImagem = $request->imagem;
 
@@ -81,8 +66,10 @@ class LivroController extends Controller
 
             $requestImagem->move(public_path('img/livros'), $nomeImagem);
 
-            $livro->imagem = $nomeImagem;
+            $dados['imagem'] = $nomeImagem;
         }
+
+
 
         DB::transaction(function () use ($dados) {
 
@@ -154,7 +141,7 @@ class LivroController extends Controller
 
             $requestImagem->move(public_path('img/livros'), $nomeImagem);
 
-            $data['imagem'] = $nomeImagem;
+            $dados['imagem'] = $nomeImagem;
         }
 
         DB::transaction(function () use (

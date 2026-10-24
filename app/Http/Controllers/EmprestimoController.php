@@ -9,6 +9,9 @@ use App\Models\Exemplare;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
+
 
 class EmprestimoController extends Controller
 {
@@ -17,19 +20,66 @@ class EmprestimoController extends Controller
      */
     public function index()
     {
-        // Depoi vou implementar as buscas aqui, mas por enquanto vou apenas retornar todos os emprestimos
+        $busca = request('busca');
+        $filtros = request()->validate([
+            'status' => ['nullable', 'in:ativo,atrasado,devolvido'],
+            'data_inicial' => ['nullable', 'date'],
+            'data_final' => ['nullable', 'date'],
+        ]);
+        $status = $filtros['status'] ?? null;
+        $dataInicial = $filtros['data_inicial'] ?? null;
+        $dataFinal = $filtros['data_final'] ?? null;
+        $aluno = Auth::user()->aluno;
 
-        // Filtro para trazer os emprestimos do usuário logado, caso ele seja um aluno. Se for um ADM, traz todos os emprestimos
-        // ?? quer dizer null, então se o valor for null use false
-        if (Auth::user()->aluno->id ?? false) {
-            $id_user_logado = Auth::user()->aluno->id;
-            $emprestimos = Emprestimo::with('aluno.user', 'user', 'exemplar.livro')->where('aluno_id', $id_user_logado)->get();
-        } else {
-            $id_user_logado = Auth::user()->id;
-            $emprestimos = Emprestimo::with('aluno.user', 'user', 'exemplar.livro')->get();
-        };
+        $query = Emprestimo::with('aluno.user', 'user', 'exemplar.livro');
 
-        return view('emprestimos/index', ['emprestimos' => $emprestimos]);
+        // Alunos veem somente os próprios empréstimos; administradores veem todos.
+        if ($aluno) {
+            $query->where('aluno_id', $aluno->id);
+        }
+
+        $emprestimos = $query
+            ->when($busca, function ($query, $busca) {
+                $termo = '%' . $busca . '%';
+
+                $query->where(function ($query) use ($termo) {
+                    $query->whereHas('exemplar.livro', function ($query) use ($termo) {
+                        $query->where('titulo', 'like', $termo);
+                    })
+                        ->orWhereHas('aluno.user', function ($query) use ($termo) {
+                            $query->where('name', 'like', $termo);
+                        })
+                        ->orWhereHas('exemplar', function ($query) use ($termo) {
+                            $query->where('codigo_patrimonio', 'like', $termo);
+                        });
+                });
+            })
+            ->when($status, function ($query, $status) {
+                match ($status) {
+                    'ativo' => $query
+                        ->whereNull('data_dev')
+                        ->whereDate('data_prev_dev', '>=', today()),
+                    'atrasado' => $query
+                        ->whereNull('data_dev')
+                        ->whereDate('data_prev_dev', '<', today()),
+                    'devolvido' => $query->whereNotNull('data_dev'),
+                };
+            })
+            ->when($dataInicial, function ($query, $dataInicial) {
+                $query->whereDate('data_retirada', '>=', $dataInicial);
+            })
+            ->when($dataFinal, function ($query, $dataFinal) {
+                $query->whereDate('data_retirada', '<=', $dataFinal);
+            })
+            ->get();
+
+        return view('emprestimos/index', compact(
+            'emprestimos',
+            'busca',
+            'status',
+            'dataInicial',
+            'dataFinal'
+        ));
     }
 
     /**
@@ -94,7 +144,7 @@ class EmprestimoController extends Controller
         ]);
 
         // whereIn para consultar um array no bd
-   
+
         DB::transaction(function () use ($idExemplares, $emprestimo) {
             $exemplares = Exemplare::query()
                 ->whereIn('id', $idExemplares)
@@ -163,5 +213,38 @@ class EmprestimoController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function devolver(string $id)
+    {
+        $dados = Validator::make(
+            ['exemplar_id' => $id],
+            ['exemplar_id' => ['required', 'integer', 'exists:exemplares,id']]
+        )->validate();
+
+        $emprestimo = Emprestimo::where('exemplar_id', $dados['exemplar_id'])
+            ->whereNull('data_dev')
+            ->firstOrFail();
+
+
+        $exemplar = Exemplare::findOrFail($dados['exemplar_id']);
+
+        try {
+            $emprestimo->update([
+                'data_dev' => now()->toDateString(),
+            ]);
+
+            $exemplar->update([
+                'status' => "disponivel",
+            ]);
+
+            return redirect('/emprestimos/lista')->with('msg', 'Livro devolvido com sucesso!');
+        } catch (Throwable $e) {
+            Log::error($e->getMessage());
+
+            return redirect('/emprestimos/lista')->withErrors([
+                'erro' => 'Não foi possível concluir o empréstimo.',
+            ]);
+        }
     }
 }

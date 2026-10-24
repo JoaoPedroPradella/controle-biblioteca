@@ -3,6 +3,7 @@
 @section('title', '$usuario->name')
 
 @section('header')
+    <button type="button" onclick="history.back()" aria-label="Voltar">&larr;</button>
     <h1>Detalhes do usuário {{ $usuario->name }}</h1>
 @endsection
 @section('main')

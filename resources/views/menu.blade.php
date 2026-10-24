@@ -31,9 +31,14 @@
 
 @endsection
 @section('main')
-    <a href="/livros/lista"><button>Livros</button></a>
-    <a href="/emprestimos/lista"><button>Empréstimos</button></a>
-    <a href="/alunos/lista"><button>Alunos</button></a>
-    <a href="/usuarios/lista"><button>Usuários</button></a>
+    @if (Auth::user()->aluno->id ?? false)
+        <a href="/livros/lista"><button>Livros</button></a>
+        <a href="/emprestimos/lista"><button>Empréstimos</button></a>
+    @else
+        <a href="/livros/lista"><button>Livros</button></a>
+        <a href="/emprestimos/lista"><button>Empréstimos</button></a>
+        <a href="/alunos/lista"><button>Alunos</button></a>
+        <a href="/usuarios/lista"><button>Usuários</button></a>
+    @endif
 @endsection
 @section('footer')

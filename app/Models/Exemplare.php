@@ -15,7 +15,7 @@ class Exemplare extends Model
 
     public function emprestimos()
     {
-        return $this->hasMany(Emprestimo::class);
+        return $this->hasMany(Emprestimo::class, 'exemplar_id');
     }
 
 

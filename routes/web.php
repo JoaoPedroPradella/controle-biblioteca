@@ -78,6 +78,8 @@ Route::middleware([
 
     Route::post('/emprestimos', [EmprestimoController::class, 'store']);
 
+    Route::delete('/emprestimo/{id}', [EmprestimoController::class, 'devolver']);
+
 
     Route::get('/menu',  function () {
         return view('menu');

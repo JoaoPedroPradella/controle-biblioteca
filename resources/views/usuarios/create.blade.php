@@ -3,6 +3,7 @@
 @section('title', 'Cadastro')
 
 @section('header')
+    <button type="button" onclick="history.back()" aria-label="Voltar">&larr;</button>
     <h1>Cadastre um Novo Usuario</h1>
 @endsection
 @section('main')

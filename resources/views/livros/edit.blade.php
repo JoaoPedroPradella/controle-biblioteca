@@ -3,6 +3,7 @@
 @section('title', 'Cadastro')
 
 @section('header')
+    <button type="button" onclick="history.back()" aria-label="Voltar">&larr;</button>
     <h1>Editando o livro {{ $livro->titulo }}</h1>
 @endsection
 @section('main')
@@ -73,10 +74,14 @@
             'bloqueado' => 'Bloqueado',
             'baixado' => 'Baixado',
         ] as $valor => $descricao)
-        // Envia o valor ao controller, o valor é a coluna esquerda, enquanto a coluna direita é a descrição
-                        <option value="{{ $valor }}" @selected($exemplar->status === $valor)>
-                            {{ $descricao }}
-                        </option>
+                        // Envia o valor ao controller, o valor é a coluna esquerda, enquanto a coluna direita é a descrição
+                        @if ($exemplar->status == 'emprestado')
+                            <option value="emprestado" @selected('emprestado') disabled>emprestado</option>
+                        @else
+                            <option value="{{ $valor }}" @selected($exemplar->status === $valor)>
+                                {{ $descricao }}
+                            </option>
+                        @endif
                     @endforeach
                 </select>
             @endforeach
@@ -86,4 +91,15 @@
         <input type="submit" value="Editar">
     </form>
 
+@endsection
+
+
+@section('scripts')
+    <script>
+        // $('select[name^="status_exemplares"]').each(function() {
+        //     if ($(this).val() === 'emprestado') {
+        //         $(this).prop('disabled', true);
+        //     }
+        // });
+    </script>
 @endsection
