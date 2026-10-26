@@ -16,11 +16,6 @@
         <form class="form-card" action="/aluno" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <header>
-                <h2>Informações do aluno</h2>
-                <p>Informe os dados necessários para criar o acesso e o cadastro do aluno.</p>
-            </header>
-
             <div class="form-grid">
                 <div class="form-field form-field--full">
                     <label for="nome">Nome completo</label>

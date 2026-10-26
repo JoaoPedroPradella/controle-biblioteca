@@ -20,14 +20,14 @@
     <body class="auth-body">
         <div class="auth-shell">
             <header class="auth-topbar">
-                <a class="auth-brand" href="/" aria-label="Biblioteca">
+                <a class="auth-brand" href="/" aria-label="+Saber">
                     <span class="auth-brand-mark" aria-hidden="true">
                         <svg viewBox="0 0 32 32" fill="none">
                             <path d="M4 7.5c4.8-2.7 9.2-1.3 12 1.4v17.1c-2.8-2.7-7.2-4.1-12-1.4V7.5Z" fill="currentColor" />
                             <path d="M28 7.5c-4.8-2.7-9.2-1.3-12 1.4v17.1c2.8-2.7 7.2-4.1 12-1.4V7.5Z" fill="currentColor" opacity=".72" />
                         </svg>
                     </span>
-                    <span>Biblioteca</span>
+                    <span>+Saber</span>
                 </a>
             </header>
 

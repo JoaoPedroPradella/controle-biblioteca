@@ -15,7 +15,6 @@
 
         <form class="form-card" action="/livros" method="POST" enctype="multipart/form-data">
         @csrf
-            <header><h2>Informações do livro</h2><p>Os campos com preenchimento obrigatório são enviados ao cadastro existente.</p></header>
             <div class="form-grid">
                 <div class="form-field form-field--full"><label for="titulo">Título</label><input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}" required></div>
                 <div class="form-field"><label for="autor">Autor</label><input type="text" name="autor" id="autor" value="{{ old('autor') }}" required></div>
@@ -27,7 +26,7 @@
                 <div class="form-field"><label for="qtd_pag">Quantidade de páginas</label><input type="number" min="1" name="qtd_pag" id="qtd_pag" value="{{ old('qtd_pag') }}" required></div>
                 <div class="form-field"><label for="qtd_exemp">Quantidade de exemplares</label><input type="number" min="1" name="qtd_exemp" id="qtd_exemp" value="{{ old('qtd_exemp') }}" required></div>
                 <div class="form-field"><label for="tipo_capa">Tipo de capa</label><select name="tipo_capa" id="tipo_capa" required><option value="capa_dura" @selected(old('tipo_capa') === 'capa_dura')>Capa dura</option><option value="brochura" @selected(old('tipo_capa') === 'brochura')>Brochura</option></select></div>
-                <div class="form-field"><label for="imagem">Imagem do livro</label><input type="file" name="imagem" id="imagem" accept="image/*"><span class="form-help">Formatos de imagem aceitos pelo navegador.</span></div>
+                <div class="form-field"><label for="imagem">Imagem do livro</label><input type="file" name="imagem" id="imagem" accept="image/*"></div>
                 <div class="form-field form-field--full"><label for="sinopse">Sinopse</label><textarea name="sinopse" id="sinopse">{{ old('sinopse') }}</textarea></div>
             </div>
             <footer class="form-actions"><a class="btn btn--secondary" href="/livros/lista">Cancelar</a><button class="btn" type="submit">Cadastrar livro</button></footer>

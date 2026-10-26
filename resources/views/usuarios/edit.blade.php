@@ -17,11 +17,6 @@
             @csrf
             @method('PUT')
 
-            <header>
-                <h2>Dados do usuário</h2>
-                <p>As alterações serão salvas no cadastro existente.</p>
-            </header>
-
             <div class="form-grid">
                 <div class="form-field form-field--full">
                     <label for="nome">Nome completo</label>

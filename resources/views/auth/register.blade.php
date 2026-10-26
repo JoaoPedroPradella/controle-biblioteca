@@ -1,6 +1,6 @@
 <x-guest-layout>
     <main class="auth-content auth-content--register">
-        <a class="auth-logo" href="/" aria-label="Biblioteca">
+        <a class="auth-logo" href="/" aria-label="+Saber">
             <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
                 <path d="M4 7.5c4.8-2.7 9.2-1.3 12 1.4v17.1c-2.8-2.7-7.2-4.1-12-1.4V7.5Z" fill="currentColor" />
                 <path d="M28 7.5c-4.8-2.7-9.2-1.3-12 1.4v17.1c2.8-2.7 7.2-4.1 12-1.4V7.5Z" fill="currentColor" opacity=".72" />
@@ -10,7 +10,7 @@
         <section class="login-card register-card" aria-label="Cadastro de usuário">
             <header class="login-card-heading">
                 <h1>Criar conta</h1>
-                <p>Cadastre-se para acessar a Biblioteca.</p>
+                <p>Cadastre-se para acessar o +Saber.</p>
             </header>
 
             <x-validation-errors class="login-alert" />

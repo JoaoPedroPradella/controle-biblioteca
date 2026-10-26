@@ -16,11 +16,6 @@
         <form id="formEmprestimo" class="loan-builder-card" action="/emprestimos" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <header>
-                <h2>Adicionar exemplares</h2>
-                <p>Busque um livro, escolha um exemplar disponível e adicione-o ao empréstimo.</p>
-            </header>
-
             <div class="form-grid">
                 <div class="form-field form-field--full">
                     <label for="buscarLivro">Buscar livro por título</label>
@@ -44,7 +39,6 @@
 
                 <section class="form-subsection loan-selected-section">
                     <h3>Exemplares selecionados</h3>
-                    <p class="form-help">Os exemplares adicionados abaixo serão enviados neste empréstimo.</p>
                     <ul class="selected-books-list list-unstyled"></ul>
                 </section>
             </div>

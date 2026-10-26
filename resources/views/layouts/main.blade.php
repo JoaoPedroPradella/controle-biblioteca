@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Biblioteca')</title>
+    <title>@yield('title', '+Saber')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -26,7 +26,7 @@
                         <path d="M28 7.5c-4.8-2.7-9.2-1.3-12 1.4v17.1c2.8-2.7 7.2-4.1 12-1.4V7.5Z" fill="currentColor" opacity=".72" />
                     </svg>
                 </span>
-                <span>Biblioteca</span>
+                <span>+Saber</span>
             </a>
 
             <div class="topbar-user">
@@ -74,7 +74,7 @@
                     @endif
                 </nav>
 
-                <div class="sidebar-footer"><span class="sidebar-status"></span>Sistema da Biblioteca</div>
+                <div class="sidebar-footer"><span class="sidebar-status"></span>Sistema +Saber</div>
             </aside>
 
             <button class="sidebar-backdrop" type="button" data-sidebar-backdrop hidden aria-label="Fechar menu"></button>
@@ -97,7 +97,7 @@
             </main>
         </div>
 
-        <footer class="app-footer"><span>Biblioteca © {{ date('Y') }}</span><span>Gestão simples do seu acervo.</span></footer>
+        <footer class="app-footer"><span>+Saber © {{ date('Y') }}</span><span>Gestão simples do seu acervo.</span></footer>
     </div>
 
     <div id="library-vue-ui" hidden aria-hidden="true"></div>

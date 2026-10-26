@@ -115,7 +115,7 @@
                         <td><span class="status-badge status-badge--{{ $classeStatus }}">{{ $statusEmprestimo }}</span></td>
                         <td>
                             <div class="table-actions">
-                                <a class="btn btn--small" href="/livro/{{ $emprestimo->exemplar->livro->id }}">
+                                <a class="btn btn--small" href="/livro/{{ $emprestimo->exemplar->livro->id }}?origem=emprestimos">
                                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" /><circle cx="12" cy="12" r="2.5" /></svg>
                                     Ver
                                 </a>

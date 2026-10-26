@@ -10,10 +10,10 @@
 
 @extends('layouts.main')
 
-@section('title', 'Leia+')
+@section('title', '+Saber')
 
 @section('header')
-    <h1>Menu Leia+</h1>
+    <h1>Menu +Saber</h1>
     {{-- Usado guest para validar se está deslogado --}}
     @guest
         <nav>

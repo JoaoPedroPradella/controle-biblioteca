@@ -12,7 +12,6 @@
         <form class="form-card" action="/livro/update/{{ $livro->id }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-            <header><h2>Dados do livro</h2><p>As alterações serão salvas usando a mesma atualização já cadastrada no sistema.</p></header>
             <div class="form-grid">
                 <div class="form-field form-field--full"><label for="titulo">Título</label><input type="text" name="titulo" id="titulo" required value="{{ old('titulo', $livro->titulo) }}"></div>
                 <div class="form-field"><label for="autor">Autor</label><input type="text" name="autor" id="autor" required value="{{ old('autor', $livro->autor) }}"></div>

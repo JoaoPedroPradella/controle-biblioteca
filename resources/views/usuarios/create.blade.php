@@ -16,11 +16,6 @@
         <form class="form-card" action="/usuario" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <header>
-                <h2>Informações do usuário</h2>
-                <p>Defina os dados de acesso para o novo usuário.</p>
-            </header>
-
             <x-validation-errors class="form-validation-errors" />
 
             <div class="form-grid">

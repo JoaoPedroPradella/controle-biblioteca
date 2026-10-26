@@ -13,9 +13,12 @@
 @endsection
 
 @section('main')
-    <a class="content-back-link" href="/livros/lista">
+    @php
+        $veioDeEmprestimos = request()->query('origem') === 'emprestimos';
+    @endphp
+    <a class="content-back-link" href="{{ $veioDeEmprestimos ? '/emprestimos/lista' : '/livros/lista' }}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
-        Voltar para livros
+        {{ $veioDeEmprestimos ? 'Voltar para empréstimos' : 'Voltar para livros' }}
     </a>
 
     <section class="details-card">
