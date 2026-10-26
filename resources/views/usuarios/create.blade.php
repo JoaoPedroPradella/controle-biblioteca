@@ -1,30 +1,54 @@
 @extends('layouts.main')
 
-@section('title', 'Cadastro')
+@section('title', 'Novo usuário')
 
 @section('header')
-    <button type="button" onclick="history.back()" aria-label="Voltar">&larr;</button>
-    <h1>Cadastre um Novo Usuario</h1>
+    <h1>Novo usuário</h1>
 @endsection
+
 @section('main')
-    {{-- enctype é necessário para enviar arquivos por um form html --}}
-    <form action="/usuario" method="POST" enctype="multipart/form-data">
-        @csrf
-        <x-validation-errors class="mb-4" />
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome" required><br>
+    <div class="form-page">
+        <a class="content-back-link" href="/usuarios/lista">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            Voltar para usuários
+        </a>
 
-        <label for="e-mail">E-mail:</label>
-        <input type="text" name="email" id="email" required><br>
+        <form class="form-card" action="/usuario" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" required><br>
+            <header>
+                <h2>Informações do usuário</h2>
+                <p>Defina os dados de acesso para o novo usuário.</p>
+            </header>
 
-        {{-- Incluido campo de confirmação de senha para poder validar a senha no controller usando o passwordRules() do Fortify --}}
-        <label for="senha_confirmation">Confirmar senha:</label>
-        <input type="password" name="senha_confirmation" id="senha_confirmation" required>
+            <x-validation-errors class="form-validation-errors" />
 
-        <input type="submit" value="Cadastrar">
-    </form>
+            <div class="form-grid">
+                <div class="form-field form-field--full">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" name="nome" id="nome" required>
+                </div>
 
+                <div class="form-field form-field--full">
+                    <label for="email">E-mail</label>
+                    <input type="text" name="email" id="email" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" id="senha" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="senha_confirmation">Confirmar senha</label>
+                    <input type="password" name="senha_confirmation" id="senha_confirmation" required>
+                </div>
+            </div>
+
+            <footer class="form-actions">
+                <a class="btn btn--secondary" href="/usuarios/lista">Cancelar</a>
+                <button class="btn" type="submit">Cadastrar usuário</button>
+            </footer>
+        </form>
+    </div>
 @endsection

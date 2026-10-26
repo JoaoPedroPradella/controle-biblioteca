@@ -1,67 +1,65 @@
 <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+    @auth
+        <script>window.location.replace('/menu');</script>
+    @else
+        <main class="auth-content">
+            <a class="auth-logo" href="/" aria-label="Biblioteca">
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <path d="M4 7.5c4.8-2.7 9.2-1.3 12 1.4v17.1c-2.8-2.7-7.2-4.1-12-1.4V7.5Z" fill="currentColor" />
+                    <path d="M28 7.5c-4.8-2.7-9.2-1.3-12 1.4v17.1c2.8-2.7 7.2-4.1 12-1.4V7.5Z" fill="currentColor" opacity=".72" />
+                </svg>
+            </a>
 
-        <x-validation-errors class="mb-4" />
+            <section class="login-card" aria-label="Acesso ao sistema">
+                <header class="login-card-heading">
+                    <h1>Bem-vindo de volta</h1>
+                    <p>Entre para acessar a Biblioteca.</p>
+                </header>
 
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
-            </div>
-        @endsession
+                @if ($errors->any())
+                    <div class="login-alert" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-        @auth
-            <script>
-                window.location.href = '/menu';
-            </script>
-        @endauth
-        @guest
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+                @session('status')
+                    <div class="login-status" role="status">{{ $value }}</div>
+                @endsession
 
-                <div>
-                    <x-label for="email" value="{{ __('Email') }}" />
-                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                        autofocus autocomplete="username" placeholder="Digite seu e-mail" />
-                </div>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
 
-                <div class="mt-4">
-                    <x-label for="password" value="{{ __('Senha') }}" />
-                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                        autocomplete="current-password" placeholder="Digite sua senha" />
-                </div>
+                    <div class="auth-field">
+                        <label for="email">E-mail</label>
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                            autocomplete="username" placeholder="Digite seu e-mail">
+                    </div>
 
-                <div class="block mt-4">
-                    <label for="remember_me" class="flex items-center">
-                        <x-checkbox id="remember_me" name="remember" />
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Lembrar-me') }}</span>
+                    <div class="auth-field">
+                        <label for="password">Senha</label>
+                        <input id="password" type="password" name="password" required autocomplete="current-password"
+                            placeholder="Digite sua senha">
+                    </div>
+
+                    <label class="remember-field" for="remember_me">
+                        <input id="remember_me" type="checkbox" name="remember" @checked(old('remember'))>
+                        <span>Lembrar-me</span>
                     </label>
-                </div>
 
+                    <div class="login-actions">
+                        @if (Route::has('password.request'))
+                            <a class="auth-link" href="{{ route('password.request') }}">Esqueceu sua senha?</a>
+                        @endif
+                        <button class="login-submit" type="submit">Entrar</button>
+                    </div>
 
-                <div class="flex items-center justify-end mt-4">
-
-
-                    @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            href="{{ route('password.request') }}">
-                            {{ __('Esqueceu sua senha?') }}
-                        </a>
-                    @endif
-
-                    <x-button class="ms-4">
-                        {{ __('Entrar') }}
-                    </x-button>
-
-
-                </div>
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    href="{{ route('register') }}">
-                    {{ __('Criar conta') }}
-                </a>
-            </form>
-        @endguest
-    </x-authentication-card>
+                    <a class="auth-link create-account-link" href="{{ route('register') }}">Criar conta</a>
+                </form>
+            </section>
+        </main>
+    @endauth
 </x-guest-layout>

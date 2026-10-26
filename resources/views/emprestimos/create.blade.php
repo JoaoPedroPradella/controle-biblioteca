@@ -1,48 +1,63 @@
 @extends('layouts.main')
 
-@section('title', 'Cadastro')
+@section('title', 'Novo empréstimo')
 
 @section('header')
-    <button type="button" onclick="history.back()" aria-label="Voltar">&larr;</button>
-    <h1>Cadastre um Novo Livro</h1>
+    <h1>Novo empréstimo</h1>
 @endsection
+
 @section('main')
-    {{-- enctype é necessário para enviar arquivos por um form html --}}
-    <form id="formEmprestimo" action="/emprestimos" method="POST" enctype="multipart/form-data">
-        @csrf
-        <label for="buscarLivro" class="form-label">
-            Buscar livro por título
-        </label>
-        <input type="text" id="buscarLivro" class="form-control" placeholder="Digite o título do livro..."
-            autocomplete="off">
+    <div class="form-page">
+        <a class="content-back-link" href="/emprestimos/lista">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            Voltar para empréstimos
+        </a>
 
-        <div id="resultadosLivros" class="list-group mt-2">
-        </div>
+        <form id="formEmprestimo" class="loan-builder-card" action="/emprestimos" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <div class="mb-3">
-            <label for="exemplar_id" class="form-label">
-                Exemplar disponível
-            </label>
+            <header>
+                <h2>Adicionar exemplares</h2>
+                <p>Busque um livro, escolha um exemplar disponível e adicione-o ao empréstimo.</p>
+            </header>
 
-            <select id="exemplar_id" class="form-select">
-                <option value="">Selecione um livro primeiro</option>
-            </select>
-        </div>
+            <div class="form-grid">
+                <div class="form-field form-field--full">
+                    <label for="buscarLivro">Buscar livro por título</label>
+                    <input type="text" id="buscarLivro" placeholder="Digite o título do livro..." autocomplete="off">
+                    <div id="resultadosLivros" class="loan-search-results" aria-live="polite"></div>
+                </div>
 
-        {{-- Exibe a lista de livros usando JS --}}
-        <ul class="list-unstyled">
-        </ul>
+                <div class="form-field form-field--full">
+                    <label for="exemplar_id">Exemplar disponível</label>
+                    <select id="exemplar_id">
+                        <option value="">Selecione um livro primeiro</option>
+                    </select>
+                </div>
 
-        <button type="button" id="btnAdicionarLivro" class="btn btn-primary" onclick="adicionarLivro()">
-            Adicionar livro
-        </button>
+                <div class="form-field form-field--full loan-add-action">
+                    <button type="button" id="btnAdicionarLivro" class="btn" onclick="adicionarLivro()">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                        Adicionar exemplar
+                    </button>
+                </div>
 
-        {{--  Campo oculto para enviar os IDs de emprestimos para o controller --}}
-        <input type="hidden" name="exemplares" id="exemplares">
+                <section class="form-subsection loan-selected-section">
+                    <h3>Exemplares selecionados</h3>
+                    <p class="form-help">Os exemplares adicionados abaixo serão enviados neste empréstimo.</p>
+                    <ul class="selected-books-list list-unstyled"></ul>
+                </section>
+            </div>
 
-        <input type="submit" value="Cadastrar">
-    </form>
+            {{-- Campo oculto que envia os IDs dos exemplares ao controller. --}}
+            <input type="hidden" name="exemplares" id="exemplares">
 
+            <footer class="form-actions">
+                <a class="btn btn--secondary" href="/emprestimos/lista">Cancelar</a>
+                <button class="btn" type="submit">Cadastrar empréstimo</button>
+            </footer>
+        </form>
+    </div>
 @endsection
 
 @section('scripts')

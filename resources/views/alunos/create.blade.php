@@ -1,31 +1,57 @@
 @extends('layouts.main')
 
-@section('title', 'Cadastro')
+@section('title', 'Novo aluno')
 
 @section('header')
-    <button type="button" onclick="history.back()" aria-label="Voltar">&larr;</button>
-    <h1>Cadastre um Novo Aluno</h1>
+    <h1>Novo aluno</h1>
 @endsection
+
 @section('main')
-{{-- enctype é necessário para enviar arquivos por um form html--}}
-    <form action="/aluno" method="POST" enctype="multipart/form-data">
-        @csrf
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome" required><br>
+    <div class="form-page">
+        <a class="content-back-link" href="/alunos/lista">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            Voltar para alunos
+        </a>
 
-        <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" id="cpf" required><br>
+        <form class="form-card" action="/aluno" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <label for="data_nascimento">Data de Nascimento:</label>
-        <input type="date" name="data_nasc" id="data_nasc" required><br>
+            <header>
+                <h2>Informações do aluno</h2>
+                <p>Informe os dados necessários para criar o acesso e o cadastro do aluno.</p>
+            </header>
 
-        <label for="e-mail">E-mail:</label>
-        <input type="text" name="email" id="email" required><br>
+            <div class="form-grid">
+                <div class="form-field form-field--full">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" name="nome" id="nome" required>
+                </div>
 
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" required><br>
+                <div class="form-field">
+                    <label for="cpf">CPF</label>
+                    <input type="text" name="cpf" id="cpf" required>
+                </div>
 
-        <input type="submit" value="Cadastrar">
-    </form>
+                <div class="form-field">
+                    <label for="data_nasc">Data de nascimento</label>
+                    <input type="date" name="data_nasc" id="data_nasc" required>
+                </div>
 
+                <div class="form-field form-field--full">
+                    <label for="email">E-mail</label>
+                    <input type="text" name="email" id="email" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" id="senha" required>
+                </div>
+            </div>
+
+            <footer class="form-actions">
+                <a class="btn btn--secondary" href="/alunos/lista">Cancelar</a>
+                <button class="btn" type="submit">Cadastrar aluno</button>
+            </footer>
+        </form>
+    </div>
 @endsection

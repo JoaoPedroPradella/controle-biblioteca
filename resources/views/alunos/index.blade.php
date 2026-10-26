@@ -1,41 +1,89 @@
 @extends('layouts.main')
 
-@section('title', 'alunos')
+@section('title', 'Alunos')
 
 @section('header')
-    <button><a href="../menu">Menu</a></button>
-    <h1>Lista de alunos</h1>
+    <h1>Alunos</h1>
 @endsection
+
+@section('page-actions')
+    <a class="btn" href="/aluno/cadastrar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        Novo aluno
+    </a>
+@endsection
+
 @section('main')
-    <a href="/aluno/cadastrar"><button>Novo</button></a>
-    <form action="/alunos/lista" method="GET">
-        <input type="text" name="busca" id="busca" placeholder="Buscar aluno">
-    </form>
-    @if ($busca)
-        <h2>Buscando por: {{ $busca }}</h2>
-    @endif
-    <p>Esta é a lista de alunos</p>
-    @foreach ($alunos as $aluno)
-        {{-- As chaves são usadas para exibir o valor no html, por isso no if não usamos --}}
-        @if ($aluno->imagem)
-            <img src="/img/alunos/{{ $aluno->imagem }}" alt="Imagem do aluno {{ $aluno->titulo }}" width="200">
-        @endif
-        <p>Nome: {{ $aluno->user->name }}</p>
-        <p>E-mail: {{ $aluno->user->email }}</p>
-        <p>Matricula: {{ $aluno->matricula }}</p>
-        <a href="/aluno/{{ $aluno->id }}">Detalhes</a>
-        <a href="/aluno/editar/{{ $aluno->id }}">Editar</a>
-        <form action = "/aluno/{{ $aluno->id }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit">Apagar</button>
-            <br>
-            <br>
+    <section class="catalog-toolbar" aria-label="Busca de alunos">
+        <form class="catalog-search" action="/alunos/lista" method="GET">
+            <label class="sr-only" for="busca">Buscar aluno</label>
+            <div class="filter-control">
+                <input type="search" name="busca" id="busca" value="{{ $busca }}" placeholder="Buscar por nome">
+                <span class="filter-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" /><path d="m16 16 4 4" /></svg>
+                </span>
+            </div>
+            <button class="btn" type="submit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6" /><path d="m16 16 4 4" /></svg>
+                Buscar
+            </button>
+            @if ($busca)
+                <a class="btn btn--secondary" href="/alunos/lista">Limpar busca</a>
+            @endif
         </form>
-    @endforeach
-    @if (count($alunos) == 0 && $busca)
-        <p>Não foi possível encontrar nenhum aluno com {{ $busca }}! <a href="/alunos/lista">Ver todos</a></p>
-    @elseif (count($alunos) == 0)
-        <p>Não há alunos cadastrados</p>
+    </section>
+
+    @if ($busca)
+        <p class="filter-summary">Resultados para “{{ $busca }}”.</p>
     @endif
+
+    <section class="directory-card" aria-label="Lista de alunos">
+        <table class="directory-table">
+            <thead>
+                <tr>
+                    <th scope="col">Aluno</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Matrícula</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($alunos as $aluno)
+                    <tr>
+                        <td>
+                            <div class="directory-person">
+                                <span class="directory-avatar" aria-hidden="true">{{ strtoupper(substr($aluno->user->name, 0, 1)) }}</span>
+                                <span>
+                                    <strong>{{ $aluno->user->name }}</strong>
+                                    <span>{{ $aluno->user->email }}</span>
+                                </span>
+                            </div>
+                        </td>
+                        <td>{{ $aluno->cpf }}</td>
+                        <td>{{ $aluno->matricula }}</td>
+                        <td>
+                            <div class="directory-actions">
+                                <a class="btn btn--small btn--secondary" href="/aluno/{{ $aluno->id }}">Detalhes</a>
+                                <a class="btn btn--small" href="/aluno/editar/{{ $aluno->id }}">Editar</a>
+                                <form action="/aluno/{{ $aluno->id }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn--small btn--danger" type="submit">Apagar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td class="empty-table" colspan="4">
+                            {{ $busca ? "Não foi possível encontrar nenhum aluno com {$busca}." : 'Não há alunos cadastrados.' }}
+                            @if ($busca)
+                                <a href="/alunos/lista">Ver todos</a>
+                            @endif
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </section>
 @endsection

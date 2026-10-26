@@ -14,13 +14,6 @@
 
 @section('header')
     <h1>Menu Leia+</h1>
-    {{-- Usado auth para validar se está logado --}}
-    @auth
-        <form action="/logout" method="POST">
-            @csrf
-            <a href="/auth/login" onclick="event.preventDefault(); this.closest('form').submit();">Sair</a>
-        </form>
-    @endauth
     {{-- Usado guest para validar se está deslogado --}}
     @guest
         <nav>

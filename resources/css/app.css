@@ -1,3 +1,6 @@
+@import './library-theme.css';
+@import './auth-theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
